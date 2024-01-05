@@ -1,0 +1,85 @@
+@import url("https://cdn.jsdelivr.net/npm/inter-ui");
+
+
+.title {
+  color: white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 170px;
+
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 2.2rem;
+  margin-top: 1.2rem;
+}
+
+.imgContainer {
+  position: relative;
+  z-index: -1;
+}
+
+.logo {
+  width: 100%;
+  height: 100px;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.formContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 0.8rem;
+  border-radius: 20px;
+  margin-top: -30px;
+  background-color: white;
+  z-index: 1;
+  /* Increased z-index to place it on top */
+}
+
+.input {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 8px;
+  outline: none;
+  appearance: none;
+  width: 100%;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c70016;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}
+
+.loginButton:hover {
+  background-color: #990012;
+}
+
+.or{
+    align-self: center;
+}
+
+.dontHave{
+    font-family: "Inter", sans-serif;
+    align-self: center;
+}
+
+.signUp{
+    color: #C70016;
+}
