@@ -7,6 +7,7 @@ import Register from "./pages/Register/Register";
 import Voting from "./pages/Voting/Voting";
 import Ranking from "./pages/Ranking/Ranking";
 import Evaluation from "./pages/Evaluation/Evaluation";
+import Gathering from "./pages/Gathering/Gathering";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
+          <Route path="/gathering" element={<Gathering />} />
           <Route path="/voting" element={<Voting />} />
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/evaluation" element={<Evaluation />} />

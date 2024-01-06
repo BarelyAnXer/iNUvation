@@ -2,9 +2,13 @@ import React from "react";
 import { useState } from "react";
 import styles from "./Login.module.css";
 import logo from "../../assets/logo.png";
-import { auth } from "../../firebase";
-import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -14,19 +18,41 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const notify = () => toast("");
+  const notify = (message) => toast(message);
 
   const handleSignUp = async () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-        console.log("nice", user);
-        // navigate("/");
+
+        const docSnap = await getDoc(doc(db, "users", user.uid));
+        if (docSnap.exists) {
+          const userData = docSnap.data();
+          if (userData.isVerified) {
+            navigate("/gathering");
+          } else {
+            notify("Not Verified");
+          }
+        } else {
+          // User document does not exist, handle accordingly
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console(errorCode, errorMessage);
+        console.error(errorCode, errorMessage);
+      });
+  };
+
+  const handleResetPassword = async () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        notify("password reset email sent");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
       });
   };
 
@@ -62,7 +88,9 @@ export default function Login() {
 
         {error && <p>{error}</p>}
 
-        <p className={styles.forgot}>Forgot Password</p>
+        <p className={styles.forgot} onClick={handleResetPassword}>
+          Forgot Password
+        </p>
 
         <button className={styles.loginButton} onClick={handleSignUp}>
           Login
@@ -74,7 +102,7 @@ export default function Login() {
         </p>
 
         <p className={styles.dontHave}>
-          Don't have an account? <span className={styles.signUp}>Sign up</span>
+          Don't have an account? <Link className={styles.signUp}>Sign up</Link>
         </p>
       </div>
     </div>

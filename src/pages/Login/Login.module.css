@@ -60,8 +60,8 @@
 }
 
 .forgot {
-    align-self: flex-end;
-    color: #3C3C3C;
+  align-self: flex-end;
+  color: #3c3c3c;
 }
 
 .loginButton {
@@ -80,15 +80,15 @@
   background-color: #990012;
 }
 
-.or{
-    align-self: center;
+.or {
+  align-self: center;
 }
 
-.dontHave{
-    font-family: "Inter", sans-serif;
-    align-self: center;
+.dontHave {
+  font-family: "Inter", sans-serif;
+  align-self: center;
 }
 
-.signUp{
-    color: #C70016;
+.signUp {
+  color: #c70016;
 }

@@ -1,7 +1,8 @@
 import React from "react";
-import styles from "./Evaluation.module.css";
+import styles from "./Gathering.module.css";
+export default function Gathering() {
+  const getCurrentLoggedInUser = () => {};
 
-export default function Evaluation() {
   return (
     <>
       <div className={styles.header}>
@@ -14,8 +15,7 @@ export default function Evaluation() {
         </p>
       </div>
 
-      <button className={styles.voteButton}>View Result</button>
-
+      <p className={styles.eventTitle}>Events</p>
 
       <div className={styles.container}>
         <p className={styles.title}>
@@ -27,10 +27,8 @@ export default function Evaluation() {
         </p>
         <p className={styles.date}>January 12, 2024</p>
 
-        <img src="" alt="" />
-
+        <button className={styles.voteButton}>Vote</button>
       </div>
-
     </>
   );
 }

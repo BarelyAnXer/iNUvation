@@ -42,6 +42,7 @@ export default function Register() {
         yearAndSection,
         email,
         username,
+        isVerified: false
       });
     } catch (error) {
       console.log("Error", error);

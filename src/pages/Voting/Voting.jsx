@@ -37,7 +37,7 @@ export default function Voting() {
       get(teamRef).then((snapshot) => {
         const teamDetails = snapshot.val();
         if (teamDetails) {
-          const updatedScore = teamDetails.score + 10;
+          const updatedScore = teamDetails.score + 1;
           set(teamRef, { ...teamDetails, score: updatedScore });
         }
       });
@@ -60,7 +60,10 @@ export default function Voting() {
                     : styles.team
                 }
               >
-                {teamName}
+                <p>{teamName}</p>
+                <p>{teamData[teamName].member1}</p>
+                <p>{teamData[teamName].member2}</p>
+                <p>{teamData[teamName].member3}</p>
               </div>
             ))}
           </div>

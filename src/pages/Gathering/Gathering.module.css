@@ -1,0 +1,70 @@
+.header {
+  display: flex;
+  /* background-color: rebeccapurple; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.greeting {
+}
+
+.greetingDifferent {
+  color: #c70016;
+}
+
+.welcome {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  align-self: center;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.welcomeDifferent {
+  color: #fcc841;
+}
+
+
+.eventTitle{
+    display: block;
+    margin: 0 auto;
+}
+
+.container {
+  border: 1px solid black;
+  border-radius: 1rem;
+  padding: 20px;
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 5px 10px #888888;
+}
+
+.input {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 8px;
+  outline: none;
+  appearance: none;
+}
+
+.voteButton {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c70016;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}
+
+.voteButton:hover {
+  background-color: #990012;
+}
