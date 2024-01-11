@@ -46,7 +46,12 @@ export default function Register() {
       notify("Please fill up all the fields");
       return;
     }
-    
+
+    if (password.length < 5) {
+      notify("Password Length must be at least 5 characters");
+      return;
+    }
+
     if (password !== confirmPassword) {
       notify("Confirm Password does no match");
       return;
@@ -77,6 +82,8 @@ export default function Register() {
     } catch (error) {
       console.log("Error", error);
     }
+
+    notify("Account created you can now Log In");
   };
 
   return (
@@ -183,7 +190,7 @@ export default function Register() {
 
         <p className={styles.dontHave}>
           Already have an account?{" "}
-          <Link className={styles.signUp} to="/login">
+          <Link className={styles.signUp} to="/">
             Sign In
           </Link>
         </p>

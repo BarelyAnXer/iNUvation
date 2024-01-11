@@ -17,6 +17,7 @@ export default function Voting() {
   const [teamData, setTeamData] = useState(null);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [user, setUser] = useState("");
+  const [userDocumentID, setUserDocumentID] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function Voting() {
             if (userData.hasVoted) {
               navigate("/ranking");
             }
+            setUserDocumentID(user.uid);
             setUser(userData);
           } else {
             console.log("User document does not exist in Firestore.");
@@ -81,11 +83,14 @@ export default function Voting() {
 
   const handleSubmission = async () => {
     if (selectedTeams.length != 3) {
-      console.log("select 3");
+      toast.info("Please Select 3 Teams");
       return;
     }
 
     try {
+      const userDocRef = doc(db, "users", userDocumentID);
+      await updateDoc(userDocRef, { hasVoted: true });
+
       for (const selectedTeam of selectedTeams) {
         const teamRef = doc(db, "teams", selectedTeam.id);
         await updateDoc(teamRef, {
@@ -95,8 +100,7 @@ export default function Voting() {
 
       toast.success("Votes submitted successfully!");
 
-      navigate("/evaluation")
-
+      navigate("/evaluation");
     } catch (error) {
       console.error("Error submitting votes:", error.message);
       toast.error("Error submitting votes. Please try again.");
