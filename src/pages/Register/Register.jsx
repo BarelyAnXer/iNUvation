@@ -72,6 +72,7 @@ export default function Register() {
         username,
         isVerified: false,
         isRejected: false,
+        hasVoted: false,
       });
     } catch (error) {
       console.log("Error", error);

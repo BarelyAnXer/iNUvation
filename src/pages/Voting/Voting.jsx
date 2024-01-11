@@ -9,6 +9,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -16,6 +17,7 @@ export default function Voting() {
   const [teamData, setTeamData] = useState(null);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [user, setUser] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +45,9 @@ export default function Voting() {
           if (userDocSnapshot.exists()) {
             const userData = userDocSnapshot.data();
             console.log("User data from Firestore:", userData);
+            if (userData.hasVoted) {
+              navigate("/ranking");
+            }
             setUser(userData);
           } else {
             console.log("User document does not exist in Firestore.");
