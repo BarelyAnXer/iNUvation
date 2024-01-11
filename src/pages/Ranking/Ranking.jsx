@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import styles from "./Ranking.module.css";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
-import { rtdb, db } from "../../firebase";
+import { rtdb, db, auth } from "../../firebase";
+import { getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Ranking() {
   const [teamData, setTeamData] = useState(null);
@@ -25,8 +27,52 @@ export default function Ranking() {
     console.log(teamData);
   }, []);
 
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("Current user:", user.uid);
+        const userDocRef = doc(db, "users", user.uid);
+
+        try {
+          const userDocSnapshot = await getDoc(userDocRef);
+
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+            console.log("User data from Firestore:", userData);
+            setUser(userData);
+          } else {
+            console.log("User document does not exist in Firestore.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        console.log("No user is signed in.");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div>
+      <div className={styles.header}>
+        <p className={styles.welcome}>
+          I<span className={styles.welcomeDifferent}>NU</span>VATION
+        </p>
+
+        {user ? (
+          <p className={styles.greeting}>
+            Welcome,{" "}
+            <span className={styles.greetingDifferent}>{user.firstName}</span>
+          </p>
+        ) : (
+          <p className={styles.rankingTeamName}>Loading...</p>
+        )}
+      </div>
+
       <div className={styles.ranking}>
         <div className={styles.rankingTwo}>
           {teamData ? (

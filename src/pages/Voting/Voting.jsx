@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Voting.module.css";
-import { db } from "../../firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { db, auth } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
+
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Voting() {
   const [teamData, setTeamData] = useState(null);
   const [selectedTeams, setSelectedTeams] = useState([]);
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +29,33 @@ export default function Voting() {
       setTeamData(teamsArray);
     };
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("Current user:", user.uid);
+        const userDocRef = doc(db, "users", user.uid);
+
+        try {
+          const userDocSnapshot = await getDoc(userDocRef);
+
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+            console.log("User data from Firestore:", userData);
+            setUser(userData);
+          } else {
+            console.log("User document does not exist in Firestore.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        console.log("No user is signed in.");
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleTeamSelection = (teamId) => {
@@ -39,6 +75,11 @@ export default function Voting() {
   };
 
   const handleSubmission = async () => {
+    if (selectedTeams.length != 3) {
+      console.log("select 3");
+      return;
+    }
+
     try {
       for (const selectedTeam of selectedTeams) {
         const teamRef = doc(db, "teams", selectedTeam.id);
@@ -48,7 +89,6 @@ export default function Voting() {
       }
 
       toast.success("Votes submitted successfully!");
-      
     } catch (error) {
       console.error("Error submitting votes:", error.message);
       toast.error("Error submitting votes. Please try again.");
@@ -58,6 +98,21 @@ export default function Voting() {
   return (
     <>
       <div>
+        <div className={styles.header}>
+          <p className={styles.welcome}>
+            I<span className={styles.welcomeDifferent}>NU</span>VATION
+          </p>
+
+          {user ? (
+            <p className={styles.greeting}>
+              Welcome,{" "}
+              <span className={styles.greetingDifferent}>{user.firstName}</span>
+            </p>
+          ) : (
+            <p className={styles.rankingTeamName}>Loading...</p>
+          )}
+        </div>
+
         <p className={styles.choose}>Choose your Top 3</p>
         {teamData ? (
           <div className={styles.teamContainer}>
@@ -71,10 +126,10 @@ export default function Voting() {
                     : styles.team
                 }
               >
-                <p>{team.id}</p>
-                <p>{team.memberName1}</p>
-                <p>{team.memberName2}</p>
-                <p>{team.memberName3}</p>
+                <p className={styles.teamName}>{team.teamName}</p>
+                <p className={styles.teamMember}>&#x2022; {team.memberName1}</p>
+                <p className={styles.teamMember}>&#x2022; {team.memberName2}</p>
+                <p className={styles.teamMember}>&#x2022; {team.memberName3}</p>
               </div>
             ))}
           </div>
@@ -84,7 +139,7 @@ export default function Voting() {
       </div>
 
       <button onClick={handleSubmission} className={styles.button}>
-        submit
+        Submit
       </button>
     </>
   );

@@ -1,3 +1,6 @@
+* {
+  font-family: "Montserrat", sans-serif;
+}
 .fadeIn {
   opacity: 0;
   transition: opacity 0.5s ease-in-out; /* Adjust transition properties */
@@ -46,6 +49,7 @@
   font-size: 2rem;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
 }
 
 .circle2 {
@@ -64,6 +68,8 @@
   font-size: 2rem;
   justify-content: center;
   align-items: center;
+
+  /* margin-top: 30px; */
 }
 .circle3 {
   width: 70px;
@@ -81,6 +87,7 @@
   font-size: 2rem;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
 }
 
 .rankingTwo {
@@ -126,4 +133,31 @@
 
 .table tbody tr:nth-child(even) {
   background-color: #f9f9f9; /* Alternate row color */
+}
+
+.header {
+  display: flex;
+  /* background-color: rebeccapurple; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.welcome {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  align-self: center;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.welcomeDifferent {
+  color: #fcc841;
+}
+
+.greeting {
+}
+
+.greetingDifferent {
+  color: #c70016;
 }

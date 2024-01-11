@@ -18,9 +18,23 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const notify = (message) => toast(message);
+  const notify = (message) =>
+    toast.info(message, {
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const handleSignUp = async () => {
+    if (email === "" || password === "") {
+      notify("Please fill up all the fields");
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const user = userCredential.user;
@@ -40,22 +54,22 @@ export default function Login() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+        notify("Invalid Email or Password");
       });
   };
 
-  const handleResetPassword = async () => {
-    toast.info("asd");
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        notify("password reset email sent");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
-  };
+  // const handleResetPassword = async () => {
+  //   toast.info("asd");
+  //   sendPasswordResetEmail(auth, email)
+  //     .then(() => {
+  //       notify("password reset email sent");
+  //     })
+  //     .catch((error) => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       console.log(errorCode, errorMessage);
+  //     });
+  // };
 
   return (
     <div>
@@ -89,9 +103,9 @@ export default function Login() {
 
         {error && <p>{error}</p>}
 
-        <p className={styles.forgot} onClick={handleResetPassword}>
+        {/* <p className={styles.forgot} onClick={handleResetPassword}>
           Forgot Password
-        </p>
+        </p> */}
 
         <button className={styles.loginButton} onClick={handleSignUp}>
           Login

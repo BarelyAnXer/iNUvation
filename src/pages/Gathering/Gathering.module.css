@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 .header {
   display: flex;
   /* background-color: rebeccapurple; */
@@ -25,10 +27,9 @@
   color: #fcc841;
 }
 
-
-.eventTitle{
-    display: block;
-    margin: 0 auto;
+.eventTitle {
+  display: block;
+  margin: 0 auto;
 }
 
 .container {
@@ -38,6 +39,7 @@
   width: 80%;
   display: block;
   margin: 0 auto;
+  margin-top: 2rem;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -67,4 +69,28 @@
 
 .voteButton:hover {
   background-color: #990012;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.4rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.description {
+  font-size: 0.9rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.date {
+  font-weight: bold;
+  font-size: 0.9rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.voteButton {
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
 }

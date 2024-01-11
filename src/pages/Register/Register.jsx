@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./Register.module.css";
 import logo from "../../assets/logo.png";
 import { auth } from "../../firebase";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { doc, setDoc } from "firebase/firestore";
@@ -21,9 +21,37 @@ export default function Register() {
 
   const [error, setError] = useState("");
 
-  const notify = () => toast("what the heck");
+  const notify = (message) =>
+    toast.info(message, {
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      notify("Confirm Password does no match");
+      return;
+    }
+
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      studentID === "" ||
+      yearAndSection === "" ||
+      email === "" ||
+      username === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      notify("Please fill up all the fields");
+      return;
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -56,7 +84,7 @@ export default function Register() {
         <p className={styles.title}>
           I<span className={styles.welcomeDifferent}>NU</span>VATION
         </p>
-        <img className={styles.logo} src={logo} alt="" />
+        <div className={styles.logo} alt="" />
       </div>
       <div className={styles.formContainer}>
         <div className={styles.row}>

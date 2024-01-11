@@ -1,9 +1,40 @@
-.choose{
-    display: block;
-    margin: 1rem;
-    font-size: 2rem;
-    text-align: center;
-    font-weight: bold;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.header {
+  display: flex;
+  /* background-color: rebeccapurple; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.welcome {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  align-self: center;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.welcomeDifferent {
+  color: #fcc841;
+}
+
+.greeting {
+  font-family: "Montserrat", sans-serif;
+}
+
+.greetingDifferent {
+  color: #c70016;
+}
+
+.choose {
+  display: block;
+  margin: 1rem;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif;
 }
 
 .teamContainer {
@@ -15,16 +46,19 @@
   padding: 1rem;
 }
 .selectedTeam {
-  border: 1px solid rgb(255, 0, 0);
+  border: 1px solid red;
   border-radius: 1rem;
   padding: 20px;
   width: calc(50% - 20px);
   display: block;
-  height: auto;
+  height: 150px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   box-shadow: 5px 10px #888888;
+  justify-content: center;
+  align-items: center;
+  gap: 20;
 }
 
 .team {
@@ -33,11 +67,14 @@
   padding: 20px;
   width: calc(50% - 20px);
   display: block;
-  height: auto;
+  height: 150px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   box-shadow: 5px 10px #888888;
+  justify-content: center;
+  align-items: center;
+  gap: 20;
 }
 
 .button {
@@ -52,8 +89,24 @@
   font-family: "Inter", sans-serif;
   display: block;
   margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .button:hover {
   background-color: #990012;
+}
+
+.teamName {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+}
+
+.teamMember {
+  font-size: 0.7rem;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
 }
