@@ -33,11 +33,6 @@ export default function Register() {
     });
 
   const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      notify("Confirm Password does no match");
-      return;
-    }
-
     if (
       firstName === "" ||
       lastName === "" ||
@@ -49,6 +44,11 @@ export default function Register() {
       confirmPassword === ""
     ) {
       notify("Please fill up all the fields");
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      notify("Confirm Password does no match");
       return;
     }
 

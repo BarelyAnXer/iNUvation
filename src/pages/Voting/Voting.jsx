@@ -94,6 +94,9 @@ export default function Voting() {
       }
 
       toast.success("Votes submitted successfully!");
+
+      navigate("/evaluation")
+
     } catch (error) {
       console.error("Error submitting votes:", error.message);
       toast.error("Error submitting votes. Please try again.");
