@@ -43,8 +43,8 @@ export default function Gathering() {
         </p>
 
         {user ? (
-          <p className={styles.greeting}>
-            Welcome, <span className={styles.greetingDifferent}>{user.firstName}</span>
+            <p className={styles.greeting}>
+            Welcome, <span className={styles.greetingDifferent}>{user.firstName}!</span>
           </p>
         ) : (
           <p className={styles.rankingTeamName}>Loading...</p>

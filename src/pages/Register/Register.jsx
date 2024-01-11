@@ -136,7 +136,7 @@ export default function Register() {
         <label htmlFor="">Email</label>
         <input
           type="email"
-          placeholder="KikiamNiErnest2@gmail.com"
+          placeholder="zyegazzingan28@gmail.com"
           className={styles.input}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -145,7 +145,7 @@ export default function Register() {
         <label htmlFor="">Username</label>
         <input
           type="text"
-          placeholder="Hatdog Malaki"
+          placeholder="Username"
           className={styles.input}
           value={username}
           onChange={(e) => setUsername(e.target.value)}

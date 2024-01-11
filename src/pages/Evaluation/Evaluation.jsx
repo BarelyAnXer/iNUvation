@@ -1,7 +1,42 @@
 import React from "react";
 import styles from "./Evaluation.module.css";
+import { getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { useState, useEffect } from "react";
+import { rtdb, db, auth } from "../../firebase";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export default function Evaluation() {
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("Current user:", user.uid);
+        const userDocRef = doc(db, "users", user.uid);
+
+        try {
+          const userDocSnapshot = await getDoc(userDocRef);
+
+          if (userDocSnapshot.exists()) {
+            const userData = userDocSnapshot.data();
+            console.log("User data from Firestore:", userData);
+            setUser(userData);
+          } else {
+            console.log("User document does not exist in Firestore.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        console.log("No user is signed in.");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <div className={styles.header}>
@@ -10,27 +45,21 @@ export default function Evaluation() {
         </p>
 
         <p className={styles.greeting}>
-          Welcome, <span className={styles.greetingDifferent}>Zye !</span>
+          Welcome, <span className={styles.greetingDifferent}>{user.firstName}!</span>
         </p>
       </div>
-
-      <button className={styles.voteButton}>View Result</button>
-
 
       <div className={styles.container}>
-        <p className={styles.title}>
-          NUvations 2024: A Bulldog's Solution Innovation Pitch
-        </p>
         <p className={styles.description}>
-          Welcome to iNUvations 2024: A Bulldog's Solution Innovation Pitch, an
-          electrifying event where ingenuity takes center stage!
+          Thank you {user.firstName}! <br />
+          we appreciate your time and effort <br />
+          Hope to win your chosen team.
         </p>
-        <p className={styles.date}>January 12, 2024</p>
-
-        <img src="" alt="" />
-
       </div>
 
+      <Link className={styles.voteButton} to="/register">
+        View Result
+      </Link>
     </>
   );
 }

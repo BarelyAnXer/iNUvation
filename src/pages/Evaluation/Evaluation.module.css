@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  /* background-color: rebeccapurple; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.greeting {
+}
+
+.greetingDifferent {
+  color: #c70016;
+}
+
+.welcome {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  align-self: center;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.welcomeDifferent {
+  color: #fcc841;
+}
+
+.voteButton {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c70016;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  text-decoration: none;
+  margin: 0 auto;
+  width: 150px;
+  margin-top: 1rem;
+  display: block;
+  text-align: center;
+}
+
+.voteButton:hover {
+  background-color: #990012;
+}
+
+.description {
+    margin: 2rem;
+  text-align: center;
+}
