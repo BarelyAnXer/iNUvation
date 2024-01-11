@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -45,6 +45,7 @@ export default function Login() {
   };
 
   const handleResetPassword = async () => {
+    toast.info("asd");
     sendPasswordResetEmail(auth, email)
       .then(() => {
         notify("password reset email sent");
@@ -102,7 +103,10 @@ export default function Login() {
         </p>
 
         <p className={styles.dontHave}>
-          Don't have an account? <Link className={styles.signUp}>Sign up</Link>
+          Don't have an account?{" "}
+          <Link className={styles.signUp} to="/register">
+            Sign up
+          </Link>
         </p>
       </div>
     </div>

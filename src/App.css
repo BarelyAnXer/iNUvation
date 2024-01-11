@@ -3,3 +3,21 @@
   margin: 0;
   padding: 0;
 }
+
+/* Example CSS module */
+.customToast {
+  /* Example styles to customize the toast */
+}
+
+/* Centering the custom toast container */
+.customToastContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}

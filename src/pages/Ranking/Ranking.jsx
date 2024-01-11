@@ -1,67 +1,62 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Ranking.module.css";
 import { getDatabase, ref, set, onValue } from "firebase/database";
-import { rtdb } from "../../firebase";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { rtdb, db } from "../../firebase";
 
 export default function Ranking() {
   const [teamData, setTeamData] = useState(null);
 
-  const writeUserData = async (teamName, member1, member2, member3) => {
-    set(ref(rtdb, "teams/" + teamName), {
-      member1: member1,
-      member2: member2,
-      member3: member3,
-      score: 0,
-    });
-  };
-
   useEffect(() => {
-    const teamsRef = ref(rtdb, "teams");
-    onValue(teamsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Convert the object to an array for sorting
-        const teamArray = Object.entries(data).map(([teamName, teamData]) => ({
-          teamName,
-          ...teamData,
-        }));
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "teams"));
+      const teamsArray = [];
 
-        teamArray.sort((a, b) => b.score - a.score); // Sort the array by score in descending order
-        setTeamData(teamArray); // Update the state with the sorted data
-      } else {
-        setTeamData(null); // Handle case where data is empty
-      }
-    });
+      querySnapshot.forEach((doc) => {
+        teamsArray.push({ id: doc.id, ...doc.data() });
+      });
+
+      teamsArray.sort((a, b) => b.votes - a.votes);
+
+      setTeamData(teamsArray);
+    };
+
+    fetchData();
+    console.log(teamData);
   }, []);
 
   return (
     <div>
       <div className={styles.ranking}>
         <div className={styles.rankingTwo}>
-          <p className={styles.rankingTeamName}>Luisa</p>
-          <div className={styles.circle}>2</div>
+          {teamData ? (
+            <p className={styles.rankingTeamName}>{teamData[1].teamName}</p>
+          ) : (
+            <p className={styles.rankingTeamName}>Loading...</p>
+          )}
+          <div className={styles.circle2}>2</div>
         </div>
         <div className={styles.rankingOne}>
-        <p className={styles.rankingTeamName}>Maxine</p>
-          <div className={styles.circle}>1</div>
+          {teamData ? (
+            <p className={styles.rankingTeamName}>{teamData[0].teamName}</p>
+          ) : (
+            <p className={styles.rankingTeamName}>Loading...</p>
+          )}
+          <div className={styles.circle1}>1</div>
         </div>
         <div className={styles.rankingThree}>
-        <p className={styles.rankingTeamName}>Jewel</p>
-          <div className={styles.circle}>3</div>
+          {teamData ? (
+            <p className={styles.rankingTeamName}>{teamData[2].teamName}</p>
+          ) : (
+            <p className={styles.rankingTeamName}>Loading...</p>
+          )}
+          <div className={styles.circle3}>3</div>
         </div>
       </div>
 
-      <button
-        onClick={() => {
-          console.log(user);
-          writeUserData("Team 2", "qwe", "asd", "zxc");
-        }}
-      >
-        Click to Update Data
-      </button>
+      <h2 className={styles.top}>Top 3</h2>
 
       <div className={styles.teamData}>
-        <h2>Team Data</h2>
         {teamData ? (
           <table className={styles.table}>
             <thead className={styles.tableHead}>
@@ -76,7 +71,7 @@ export default function Ranking() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{teamData[teamName].teamName}</td>
-                  <td>{teamData[teamName].score}</td>
+                  <td>{teamData[teamName].votes}</td>
                 </tr>
               ))}
             </tbody>

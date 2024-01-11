@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./Register.module.css";
 import logo from "../../assets/logo.png";
 import { auth } from "../../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { doc, setDoc } from "firebase/firestore";
@@ -42,7 +42,8 @@ export default function Register() {
         yearAndSection,
         email,
         username,
-        isVerified: false
+        isVerified: false,
+        isRejected: false,
       });
     } catch (error) {
       console.log("Error", error);
@@ -152,7 +153,10 @@ export default function Register() {
         </p>
 
         <p className={styles.dontHave}>
-          Already have an account? <span className={styles.signUp}>Login</span>
+          Already have an account?{" "}
+          <Link className={styles.signUp} to="/login">
+            Sign In
+          </Link>
         </p>
       </div>
     </div>

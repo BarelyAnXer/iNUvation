@@ -1,8 +1,59 @@
-.selectedTeam{
-    background-color: rebeccapurple;
+.choose{
+    display: block;
+    margin: 1rem;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
 }
 
-.team{
-    background-color: red;
-    
+.teamContainer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.selectedTeam {
+  border: 1px solid rgb(255, 0, 0);
+  border-radius: 1rem;
+  padding: 20px;
+  width: calc(50% - 20px);
+  display: block;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 5px 10px #888888;
+}
+
+.team {
+  border: 1px solid black;
+  border-radius: 1rem;
+  padding: 20px;
+  width: calc(50% - 20px);
+  display: block;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 5px 10px #888888;
+}
+
+.button {
+  width: 70%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #c70016;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  display: block;
+  margin: 0 auto;
+}
+
+.button:hover {
+  background-color: #990012;
 }

@@ -8,10 +8,13 @@ import Voting from "./pages/Voting/Voting";
 import Ranking from "./pages/Ranking/Ranking";
 import Evaluation from "./pages/Evaluation/Evaluation";
 import Gathering from "./pages/Gathering/Gathering";
+import ConfirmationToast from "./pages/ConfirmationToast/ConfirmationToast";
 
 function App() {
   return (
     // TODO protected Routes
+    // polish ui
+    // polish logic
     <>
       <BrowserRouter>
         <Routes>
@@ -22,9 +25,8 @@ function App() {
           <Route path="/voting" element={<Voting />} />
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/evaluation" element={<Evaluation />} />
-
-
         </Routes>
+        {/* <ConfirmationToast></ConfirmationToast> */}
       </BrowserRouter>
       <ToastContainer />
     </>

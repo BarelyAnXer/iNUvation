@@ -1,69 +1,80 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Voting.module.css";
-import { rtdb } from "../../firebase";
-import { getDatabase, ref, child, get, onValue, set } from "firebase/database";
+import { db } from "../../firebase";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Voting() {
   const [teamData, setTeamData] = useState(null);
   const [selectedTeams, setSelectedTeams] = useState([]);
 
   useEffect(() => {
-    const teamsRef = ref(rtdb, "teams");
-    onValue(teamsRef, (snapshot) => {
-      const data = snapshot.val();
-      setTeamData(data);
-    });
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "teams"));
+      const teamsArray = [];
+
+      querySnapshot.forEach((doc) => {
+        teamsArray.push({ id: doc.id, ...doc.data() });
+      });
+
+      setTeamData(teamsArray);
+    };
+    fetchData();
   }, []);
 
-  const handleTeamSelection = (teamName) => {
-    if (selectedTeams.length < 3 && !selectedTeams.includes(teamName)) {
-      const newSelectedTeams = [...selectedTeams, teamName];
+  const handleTeamSelection = (teamId) => {
+    const selectedTeam = teamData.find((team) => team.id === teamId);
+
+    console.log(selectedTeam);
+
+    if (selectedTeams.length < 3 && !selectedTeams.includes(selectedTeam)) {
+      const newSelectedTeams = [...selectedTeams, selectedTeam];
       setSelectedTeams(newSelectedTeams);
-    } else if (selectedTeams.includes(teamName)) {
-      const updatedTeams = selectedTeams.filter(
-        (selectedTeam) => selectedTeam !== teamName
-      );
+    } else if (selectedTeams.includes(selectedTeam)) {
+      const updatedTeams = selectedTeams.filter((team) => team.id !== teamId);
       setSelectedTeams(updatedTeams);
     } else {
-      // You can add a message or notification here indicating the limit of 3 selections.
-      // For simplicity, I'm logging a message to the console.
       console.log("You can only select 3 teams.");
     }
   };
 
-  const handleSubmission = () => {
-    selectedTeams.forEach((teamName) => {
-      const teamRef = ref(rtdb, `teams/${teamName}`);
-      get(teamRef).then((snapshot) => {
-        const teamDetails = snapshot.val();
-        if (teamDetails) {
-          const updatedScore = teamDetails.score + 1;
-          set(teamRef, { ...teamDetails, score: updatedScore });
-        }
-      });
-    });
+  const handleSubmission = async () => {
+    try {
+      for (const selectedTeam of selectedTeams) {
+        const teamRef = doc(db, "teams", selectedTeam.id);
+        await updateDoc(teamRef, {
+          votes: (selectedTeam.votes || 0) + 1,
+        });
+      }
+
+      toast.success("Votes submitted successfully!");
+      
+    } catch (error) {
+      console.error("Error submitting votes:", error.message);
+      toast.error("Error submitting votes. Please try again.");
+    }
   };
 
   return (
     <>
       <div>
-        <h2>Team Data</h2>
+        <p className={styles.choose}>Choose your Top 3</p>
         {teamData ? (
-          <div>
-            {Object.keys(teamData).map((teamName, index) => (
+          <div className={styles.teamContainer}>
+            {teamData.map((team, index) => (
               <div
-                key={index}
-                onClick={() => handleTeamSelection(teamName)}
+                key={team.id}
+                onClick={() => handleTeamSelection(team.id)}
                 className={
-                  selectedTeams.includes(teamName)
+                  selectedTeams.includes(team)
                     ? styles.selectedTeam
                     : styles.team
                 }
               >
-                <p>{teamName}</p>
-                <p>{teamData[teamName].member1}</p>
-                <p>{teamData[teamName].member2}</p>
-                <p>{teamData[teamName].member3}</p>
+                <p>{team.id}</p>
+                <p>{team.memberName1}</p>
+                <p>{team.memberName2}</p>
+                <p>{team.memberName3}</p>
               </div>
             ))}
           </div>
@@ -72,16 +83,9 @@ export default function Voting() {
         )}
       </div>
 
-      <button onClick={handleSubmission}>submit</button>
-
-      <div>
-        <h3>Selected Teams:</h3>
-        <ul>
-          {selectedTeams.map((team, index) => (
-            <li key={index}>{team}</li>
-          ))}
-        </ul>
-      </div>
+      <button onClick={handleSubmission} className={styles.button}>
+        submit
+      </button>
     </>
   );
 }
