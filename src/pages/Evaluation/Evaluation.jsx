@@ -57,7 +57,7 @@ export default function Evaluation() {
         </p>
       </div>
 
-      <Link className={styles.voteButton} to="/register">
+      <Link className={styles.voteButton} to="/ranking">
         View Result
       </Link>
     </>
