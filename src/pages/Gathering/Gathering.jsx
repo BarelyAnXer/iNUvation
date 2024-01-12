@@ -4,10 +4,11 @@ import { auth, db } from "../../firebase";
 import { Link } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Gathering() {
   const [user, setUser] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -29,6 +30,7 @@ export default function Gathering() {
         }
       } else {
         console.log("No user is signed in.");
+        navigate("/");
       }
     });
 
@@ -43,8 +45,9 @@ export default function Gathering() {
         </p>
 
         {user ? (
-            <p className={styles.greeting}>
-            Welcome, <span className={styles.greetingDifferent}>{user.firstName}!</span>
+          <p className={styles.greeting}>
+            Welcome,{" "}
+            <span className={styles.greetingDifferent}>{user.firstName}!</span>
           </p>
         ) : (
           <p className={styles.rankingTeamName}>Loading...</p>

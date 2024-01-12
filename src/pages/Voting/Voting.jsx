@@ -59,6 +59,7 @@ export default function Voting() {
         }
       } else {
         console.log("No user is signed in.");
+        navigate("/");
       }
     });
 
